@@ -1,0 +1,5 @@
+## 2023-10-27
+
+- First release, based on Linux 5.10.199
+
+PCR1: a9d0e5e70402fefd05f883d28804b6c9116c4d3073b94c65aa263e3131b4d39c399b710e8e6c92e4c67e1fa8538a6eeb

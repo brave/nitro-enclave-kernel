@@ -1,0 +1,41 @@
+name: release
+run-name: Nitro Enclaves Linux Kernel release
+
+on:
+  push:
+    tags:
+      - '**'
+
+jobs:
+  build_release:
+    name: build_release
+    permissions: write-all
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: install nix
+        uses: cachix/install-nix-action@v20
+      - name: build artifacts
+        run: nix-build --pure
+      - name: version
+        run: grep 'version =' default.nix >> $GITHUB_ENV
+        id: version
+      - name: changelog
+        run: |
+          csplit -s CHANGELOG.md "/##/" {0}
+          tail -n +3 xx01 > CHANGELOG.tmp
+        id: changelog
+      - name: release
+        uses: softprops/action-gh-release@v0.1.15
+        id: create_release
+        with:
+          draft: false
+          prerelease: false
+          tag_name: ${{ env.version }}
+          body_path: CHANGELOG.tmp
+          files: ./result/bzImage, ./result/nsm.ko
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
