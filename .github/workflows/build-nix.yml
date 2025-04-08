@@ -14,6 +14,6 @@ jobs:
         with:
           fetch-depth: 0
       - name: install nix
-        uses: cachix/install-nix-action@29bd9290ef037a3ecbdafe83cbd2185e9dd0fa0a # v20
+        uses: cachix/install-nix-action@d1ca217b388ee87b2507a9a93bf01368bde7cec2 # v31.1.0
       - name: build artifacts
         run: nix-build --pure
